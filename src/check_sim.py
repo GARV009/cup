@@ -673,7 +673,9 @@ def visualize_similarity_graph(similarity_matrix, files, output_dir):
 </html>"""
 
 
-    html_path = Path(r"C:\Users\Rhythm\Downloads\date 6 latest frontend\06-03-2025\Online_Programming_Assignment_Portal-main\src\templates\similarity_graph.html")
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    html_path = os.path.join(BASE_DIR, "templates", "similarity_graph.html")
+
     with open(html_path, "w", encoding="utf-8") as html_file:
         html_file.write(html_content)
 
