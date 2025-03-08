@@ -16,6 +16,7 @@ import matplotlib
 matplotlib.use("Agg")  # Use non-interactive backend for Flask
 import matplotlib.pyplot as plt
 
+os.environ["PATH"] += os.pathsep + "/usr/bin"
 # Similarity functions (AST, token, and control flow)
 def ast_similarity(code1, code2):
     try:
