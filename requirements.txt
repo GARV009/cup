@@ -140,6 +140,7 @@ PyYAML
 pyzmq
 redis
 referencing
+reportlab
 requests
 rich
 scikit-image
