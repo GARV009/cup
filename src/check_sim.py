@@ -181,17 +181,37 @@ def visualize_similarity_matrix(similarity_matrix, files, output_dir):
 def visualize_ast(code, filename):
     try:
         tree = ast.parse(code)
-        graph = graphviz.Digraph(filename=filename)
+        graph = nx.DiGraph()  # Directed Graph to maintain tree structure
+
         def add_nodes_edges(node, parent=None):
             node_id = str(id(node))
-            graph.node(node_id, label=type(node).__name__)
+            graph.add_node(node_id, label=type(node).__name__)
+
             if parent:
-                graph.edge(str(id(parent)), node_id)
+                graph.add_edge(parent, node_id)
+
             for child in ast.iter_child_nodes(node):
-                add_nodes_edges(child, node)
+                add_nodes_edges(child, node_id)
+
         add_nodes_edges(tree)
-        graph.render(filename=filename, format='png', cleanup=True)
-        return str(filename) + '.png'
+
+        # Extract labels for nodes
+        labels = nx.get_node_attributes(graph, 'label')
+
+        # Use `spring_layout` for a simple tree-like structure
+        pos = nx.spring_layout(graph, seed=42)
+
+        # Plot the tree
+        plt.figure(figsize=(12, 6))
+        nx.draw(graph, pos, labels=labels, with_labels=True, node_color="lightblue",
+                edge_color="gray", node_size=3000, font_size=10, font_weight="bold")
+
+        # Save the file
+        plt.savefig(filename, format='png', dpi=300)
+        plt.close()
+
+        return filename
+
     except SyntaxError:
         return None
 
