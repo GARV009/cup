@@ -493,12 +493,12 @@ def upload_submission(question_id, assignment_id):
         
         filename = secure_filename(f"{student}.py")
         topic = (Assignment.query.filter_by(id=assignment_id).first()).topic
-        cloudinary.uploader.upload(
+        response=cloudinary.uploader.upload(
         file,
         resource_type="raw",  # Since `.py` is a non-image file
         folder=topic     # Specify folder name
-    )
-
+        )
+        
 
         # Run the Python file evaluation
         file_content = file.read().decode('utf-8')  # Read and decode content
@@ -577,7 +577,7 @@ def upload_submission(question_id, assignment_id):
                 current_date = datetime.today()
                 submission = Submission(st_id=current_student_id, date=current_date,
                                         ass_id=assignment_id, ques_id=question_id, marks=marks,
-                                        test_case_id=test_case_id, output=output)
+                                        test_case_id=test_case_id, output=output,public_id=response["public_id"])
                 db.session.add(submission)
                 db.session.commit()
 
