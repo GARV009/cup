@@ -16,6 +16,9 @@ from datetime import datetime
 from io import StringIO
 import os
 import csv
+import cloudinary
+import cloudinary.uploader
+
 
 
 # Configuration for file upload
