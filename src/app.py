@@ -3,6 +3,8 @@ from flask import Flask
 from models import db  # Removed Teacher import since it's no longer needed
 from flask_bcrypt import Bcrypt
 from dotenv import load_dotenv
+import cloudinary
+
 
 # Load the .env file
 load_dotenv()
@@ -10,10 +12,15 @@ load_dotenv()
 app = Flask(__name__)
 
 # Load environment variables
+
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = os.getenv('SQLALCHEMY_TRACK_MODIFICATIONS', 'False') == 'True'
-
+cloudinary.config(
+    cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
+    api_key=os.getenv("CLOUDINARY_API_KEY"),
+    api_secret=os.getenv("CLOUDINARY_API_SECRET")
+)
 # Initialize database and bcrypt
 db.init_app(app)
 bcrypt = Bcrypt(app)

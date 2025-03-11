@@ -487,15 +487,22 @@ def upload_submission(question_id, assignment_id):
         return redirect(url_for('view_assignment_student', assignment_id=assignment_id))
 
     if file and allowed_file(file.filename):
-        # Ensure the filename is .py instead of .c
+        
         filename = secure_filename(f"{student}.py")
         topic = (Assignment.query.filter_by(id=assignment_id).first()).topic
-        filepath = os.path.join(topic, filename)
-        file.save(filepath)
+        cloudinary.uploader.upload(
+        file,
+        resource_type="raw",  # Since `.py` is a non-image file
+        folder=topic     # Specify folder name
+    )
+
 
         # Run the Python file evaluation
-        run_process = Popen(['python', filepath], stdout=PIPE, stderr=PIPE, text=True, encoding='utf-8')
-        run_output, run_errors = run_process.communicate()
+        file_content = file.read().decode('utf-8')  # Read and decode content
+    
+    # Run the script using subprocess
+        run_process = Popen(['python', '-c', file_content], stdout=PIPE, stderr=PIPE, text=True)
+        run_output, run_errors = process.communicate()
 
         if run_process.returncode != 0:
             flash(f"Runtime error: {run_errors}", "error")
