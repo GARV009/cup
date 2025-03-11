@@ -505,7 +505,7 @@ def upload_submission(question_id, assignment_id):
     
     # Run the script using subprocess
         run_process = Popen(['python', '-c', file_content], stdout=PIPE, stderr=PIPE, text=True)
-        run_output, run_errors = process.communicate()
+        run_output, run_errors = run_process.communicate()
 
         if run_process.returncode != 0:
             flash(f"Runtime error: {run_errors}", "error")
