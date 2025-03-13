@@ -198,8 +198,7 @@ def create_assignment():
 
         db.session.add(new_assignment)
         db.session.commit()
-        folder_path = r'C:\Users\Rhythm\OneDrive\Desktop\nn\IDE for similarity\IDE for similarity\Online_Programming_Assignment_Portal-main (2)\Online_Programming_Assignment_Portal-main\Online_Programming_Assignment_Portal-main\src\\'+t
-        create_new_folder(folder_path)
+        
 
 
 
@@ -211,17 +210,7 @@ def create_assignment():
 
 import os
 
-def create_new_folder(folder_path):
-    try:
-        # Check if the folder already exists
-        if not os.path.exists(folder_path):
-            # Create the folder
-            os.makedirs(folder_path)
-            print(f"Folder '{folder_path}' created successfully.")
-        else:
-            print(f"Folder '{folder_path}' already exists.")
-    except Exception as e:
-        print(f"An error occurred: {e}")
+
 
 # Example usage
 
@@ -521,8 +510,8 @@ def upload_submission(question_id, assignment_id):
             print(f"TEST CASE {idx+1}:")
             test_case = test_case_row.case
             if '<>' in test_case:   # No input required
-                print("Running program:", filepath)
-                run_process = Popen(['python', filepath], stdin=PIPE, stdout=PIPE, stderr=PIPE, encoding='utf-8')
+                print("Running program:")
+                run_process = Popen(['python', '-c', file_content], stdout=PIPE, stderr=PIPE, text=True)
                 try:
                     output, errors = run_process.communicate(timeout=10)
                 except subprocess.TimeoutExpired as t_err:
@@ -530,17 +519,16 @@ def upload_submission(question_id, assignment_id):
                     return redirect(url_for('view_assignment_student', assignment_id=assignment_id))
             elif ';' in test_case:  # Contains multiple inputs
                 test_case = '\n'.join(test_case.split(';'))
-                print("Running program:", filepath, '<', test_case)
-                run_process = Popen(['python', filepath], text=True, encoding='utf-8')
+                print("Running program:", '<', test_case)
+                run_process = Popen(['python', '-c', file_content], stdout=PIPE, stderr=PIPE, text=True)
                 try:
                     output, errors = run_process.communicate(timeout=10, input=test_case)
                 except subprocess.TimeoutExpired as t_err:
                     flash("Code Timeout during runtime", "error")
                     return redirect(url_for('view_assignment_student', assignment_id=assignment_id))
             else:   # Contains single input
-                print("Running program:", filepath, '<', test_case)
-                run_process = Popen(['python', filepath], stdin=PIPE, stdout=PIPE, stderr=PIPE, text=True,
-                                    encoding='utf-8')
+                print("Running program:",'<', test_case)
+                run_process = Popen(['python', '-c', file_content], stdout=PIPE, stderr=PIPE, text=True)
                 try:
                     output, errors = run_process.communicate(timeout=10, input=test_case)
                 except subprocess.TimeoutExpired as t_err:
