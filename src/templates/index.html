@@ -1,10 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
     <!-- Navigation Buttons -->
-    <div class="position-absolute top-0 end-0 mt-3 me-3">
-        <button class="btn btn-outline-light py-2 px-4 rounded-pill shadow-lg hover-scale animated-button" onclick="toggleAbout()">About</button>
-        <a href="{{ url_for('contact') }}" class="btn btn-outline-light py-2 px-4 rounded-pill shadow-lg hover-scale animated-button">Contact</a>
-    </div>
+    
 
     <!-- About Section (Initially Hidden) -->
     <div id="about-section" class="container text-center mt-5 p-3 glassmorphism d-none">
