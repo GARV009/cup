@@ -1,5 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
+    <!-- Navigation Buttons -->
+    <div class="position-absolute top-0 end-0 mt-3 me-3">
+        <button class="btn btn-outline-light py-2 px-4 rounded-pill shadow-lg hover-scale animated-button" onclick="toggleAbout()">About</button>
+        <a href="{{ url_for('contact') }}" class="btn btn-outline-light py-2 px-4 rounded-pill shadow-lg hover-scale animated-button">Contact</a>
+    </div>
+
+    <!-- About Section (Initially Hidden) -->
+    <div id="about-section" class="container text-center mt-5 p-3 glassmorphism d-none">
+        <p>Welcome to JIIT Study Portal! This platform helps students and teachers share resources, assignments, and notes efficiently.</p>
+    </div>
+
     <!-- Heading -->
     <header class="text-center my-4">
         <h1 class="display-4 text-glow outlined-text">Welcome to the JIIT Study Portal</h1>
@@ -31,9 +42,16 @@
         <p class="mb-0">© 2025 JIIT Study Portal. All rights reserved.</p>
     </footer>
 
-    <!-- Styles for background, effects, and animations -->
+    <!-- JavaScript for About Dropdown -->
+    <script>
+        function toggleAbout() {
+            var aboutSection = document.getElementById("about-section");
+            aboutSection.classList.toggle("d-none");
+        }
+    </script>
+
+    <!-- Styles -->
     <style>
-        /* Background with glassmorphism */
         body {
             background: url('https://www.dialeducation.com/assets/images/gallery/gallery_15935206071.jpg') no-repeat center center/cover;
             backdrop-filter: blur(5px);
@@ -46,12 +64,10 @@
             justify-content: center;
         }
 
-        /* Center button section */
         .container.d-flex {
             min-height: 60vh;
         }
 
-        /* Glassmorphism effect for cards */
         .glassmorphism {
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(20px);
@@ -75,9 +91,8 @@
             animation: pulse 1.5s infinite;
         }
 
-        /* Thin black border around text */
         .outlined-text {
-            color: #b5b0b0; /* greyish Color */
+            color: #b5b0b0;
             text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
         }
 
