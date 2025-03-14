@@ -1,7 +1,26 @@
 {% extends "base.html" %}
 {% block content %}
-    <!-- Navigation Buttons -->
-    
+
+    <!-- Maintenance Popup Modal -->
+    <div class="modal fade" id="maintenanceModal" tabindex="-1" aria-labelledby="maintenanceModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content glassmorphism p-3">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="maintenanceModalLabel">⚠️ Site Under Maintenance</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <p>Our site is currently under maintenance. Some functionality may not work as expected. We appreciate your patience!</p>
+                    <p>Sample Credentials: Teacher - ashish@gmail.com, password - abcd1234</p>
+                    <p>Sample Credentials: Student - mehul@gmail.com, password - abcd1234</p>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- About Section (Initially Hidden) -->
     <div id="about-section" class="container text-center mt-5 p-3 glassmorphism d-none">
@@ -39,15 +58,15 @@
         <p class="mb-0">© 2025 JIIT Study Portal. All rights reserved.</p>
     </footer>
 
-    <!-- JavaScript for About Dropdown -->
+    <!-- JavaScript to Show Maintenance Popup -->
     <script>
-        function toggleAbout() {
-            var aboutSection = document.getElementById("about-section");
-            aboutSection.classList.toggle("d-none");
-        }
+        document.addEventListener("DOMContentLoaded", function() {
+            var maintenanceModal = new bootstrap.Modal(document.getElementById("maintenanceModal"));
+            maintenanceModal.show();
+        });
     </script>
 
-    <!-- Styles -->
+    <!-- Styles (Keeping Background & Glassmorphism Same) -->
     <style>
         body {
             background: url('https://www.dialeducation.com/assets/images/gallery/gallery_15935206071.jpg') no-repeat center center/cover;
@@ -99,4 +118,5 @@
             100% { transform: scale(1); }
         }
     </style>
+
 {% endblock %}

@@ -10,7 +10,7 @@ from sqlalchemy.sql import func
 from wtforms.validators import optional
 
 from forms import StudentSignUpForm, StudentLoginForm, TeacherLoginForm, TeacherSignUpForm
-from models import Student, Teacher, Assignment, Question, Testcase, Submission
+from models import Student, Teacher, Assignment, Question, Testcase, Submission, ContactMessage
 from app import app, db, bcrypt
 from datetime import datetime
 from io import StringIO
@@ -47,7 +47,22 @@ def index():
 def code_editor(question_id, assignment_id):
     return render_template('code_editor.html', question_id=question_id, assignment_id=assignment_id)
 
+@app.route('/contact', methods=['GET', 'POST'])
+def contact():
+    if request.method == 'POST':
+        name = request.form['name']
+        email = request.form['email']
+        message = request.form['message']
 
+        # Save to Database
+        new_message = ContactMessage(name=name, email=email, message=message)
+        db.session.add(new_message)
+        db.session.commit()
+
+        flash("Your message has been recorded. We will get back to you soon!", "success")
+        return redirect(url_for('contact'))
+    
+    return render_template('contact.html', title="Contact Us")
 
 
 @app.route('/student_signup', methods=['GET', 'POST'])
